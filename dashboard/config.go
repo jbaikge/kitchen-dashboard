@@ -1,8 +1,15 @@
 package dashboard
 
 import (
+	"log"
+	"time"
+
 	"github.com/BurntSushi/toml"
 )
+
+type GlobalConfig struct {
+	TimeZone string `toml:"timezone"`
+}
 
 type HomeAssistantConfig struct {
 	Endpoint string `toml:"endpoint"`
@@ -34,6 +41,7 @@ type WeatherConfig struct {
 }
 
 type Config struct {
+	Global        GlobalConfig        `toml:"global"`
 	HomeAssistant HomeAssistantConfig `toml:"home-assistant"`
 	SchoolBus     SchoolBusConfig     `toml:"school-bus"`
 	Calendars     []CalendarConfig    `toml:"calendars"`
@@ -42,7 +50,19 @@ type Config struct {
 	Weather       WeatherConfig       `toml:"weather"`
 }
 
+func (c Config) TimeZone() (tz *time.Location) {
+	tz, err := time.LoadLocation(c.Global.TimeZone)
+	if err != nil {
+		log.Printf("invalid timezone value, `%s`, using local", c.Global.TimeZone)
+		tz = time.Local
+	}
+	return
+}
+
 func ParseConfig(filename string) (config Config, err error) {
+	config.Global.TimeZone = "Local"
+	config.Sun.Key = "sun"
+
 	_, err = toml.DecodeFile(filename, &config)
 	return
 }
