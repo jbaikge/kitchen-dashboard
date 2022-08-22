@@ -22,6 +22,11 @@ type SchoolBusConfig struct {
 	Password string `toml:"password"`
 }
 
+type SchoolLunchConfig struct {
+	Endpoint string `toml:"endpoint"`
+	SchoolId string `toml:"id"`
+}
+
 type CalendarConfig struct {
 	Title string `toml:"title"`
 	Key   string `toml:"key"`
@@ -44,6 +49,7 @@ type Config struct {
 	Global        GlobalConfig        `toml:"global"`
 	HomeAssistant HomeAssistantConfig `toml:"home-assistant"`
 	SchoolBus     SchoolBusConfig     `toml:"school-bus"`
+	SchoolLunch   SchoolLunchConfig   `toml:"school-lunch"`
 	Calendars     []CalendarConfig    `toml:"calendars"`
 	Locks         []LockConfig        `toml:"locks"`
 	Sun           SunConfig           `toml:"sun"`
