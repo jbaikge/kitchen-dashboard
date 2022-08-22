@@ -28,8 +28,9 @@ type SchoolLunchConfig struct {
 }
 
 type CalendarConfig struct {
-	Title string `toml:"title"`
-	Key   string `toml:"key"`
+	Title   string        `toml:"title"`
+	Key     string        `toml:"key"`
+	Outlook time.Duration `toml:"outlook"`
 }
 
 type LockConfig struct {
