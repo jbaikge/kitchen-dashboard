@@ -11,6 +11,8 @@ type CalendarEvent struct {
 	Location    string    `json:"location"`
 	Start       time.Time `json:"start"`
 	End         time.Time `json:"end"`
+	PrettyDate  string    `json:"date"`
+	PrettyTime  string    `json:"time"`
 }
 
 type Calendar struct {
@@ -72,13 +74,18 @@ func GetCalendars(config Config) (calendars []Calendar, err error) {
 
 		events := make([]CalendarEvent, 0, len(entries))
 		for _, entry := range entries {
-			events = append(events, CalendarEvent{
+			event := CalendarEvent{
 				Summary:     entry.Summary,
 				Description: entry.Description,
 				Location:    entry.Location,
 				Start:       entry.GetStart(tz),
 				End:         entry.GetEnd(tz),
-			})
+			}
+			event.PrettyDate = event.Start.Format("Wed, Jan 02")
+			if event.End.Sub(event.Start) < 24*time.Hour {
+				event.PrettyTime = event.Start.Format("3:04pm - ") + event.End.Format("3:04pm")
+			}
+			events = append(events, event)
 		}
 
 		calendars[i].Title = calConfig.Title
