@@ -24,7 +24,6 @@ func GetLocks(config Config) (locks []Lock, err error) {
 			return
 		}
 
-		fmt.Printf("%+v\n", state)
 		locks[i].Title = lockConfig.Title
 		locks[i].Key = lockConfig.Key
 		locks[i].Locked = state.State == "locked"

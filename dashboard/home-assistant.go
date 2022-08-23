@@ -32,8 +32,6 @@ func (ha HomeAssistant) GetCalendar(key string, start time.Time, end time.Time, 
 	query.Add("end", end.Format(time.RFC3339))
 	target.RawQuery = query.Encode()
 
-	fmt.Println(target.String())
-
 	request, err := http.NewRequest(http.MethodGet, target.String(), nil)
 	if err != nil {
 		return fmt.Errorf("creating request: %w", err)
