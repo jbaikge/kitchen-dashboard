@@ -11,8 +11,8 @@ type CalendarEvent struct {
 	Location    string    `json:"location"`
 	Start       time.Time `json:"start"`
 	End         time.Time `json:"end"`
-	PrettyDate  string    `json:"date"`
-	PrettyTime  string    `json:"time"`
+	PrettyDate  string    `json:"pretty_date"`
+	PrettyTime  string    `json:"pretty_time"`
 }
 
 type Calendar struct {
