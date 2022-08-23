@@ -40,6 +40,7 @@ type WeatherState struct {
 }
 
 func GetWeather(config Config) (weather Weather, err error) {
+	tz := config.TimeZone()
 	ha := NewHomeAssistant(config)
 	key := fmt.Sprintf("weather.%s", config.Weather.Key)
 	state := new(WeatherState)
@@ -57,7 +58,7 @@ func GetWeather(config Config) (weather Weather, err error) {
 		weather.Forecast[i].High = f.High
 		weather.Forecast[i].Low = f.Low
 		weather.Forecast[i].Precipitation = f.Precipitation
-		weather.Forecast[i].Date = f.Date
+		weather.Forecast[i].Date = f.Date.In(tz)
 	}
 
 	return
