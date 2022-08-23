@@ -81,7 +81,7 @@ func GetCalendars(config Config) (calendars []Calendar, err error) {
 				Start:       entry.GetStart(tz),
 				End:         entry.GetEnd(tz),
 			}
-			event.PrettyDate = event.Start.Format("Wed, Jan 02")
+			event.PrettyDate = event.Start.Format("Mon, Jan 02")
 			if event.End.Sub(event.Start) < 24*time.Hour {
 				event.PrettyTime = event.Start.Format("3:04pm - ") + event.End.Format("3:04pm")
 			}
