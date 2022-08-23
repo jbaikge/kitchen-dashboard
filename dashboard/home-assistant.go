@@ -55,7 +55,6 @@ func (ha HomeAssistant) GetCalendar(key string, start time.Time, end time.Time, 
 // Fetches a state by the provided key and decodes it into the state argument
 func (ha HomeAssistant) GetState(key string, state interface{}) (err error) {
 	target, err := url.JoinPath(ha.config.HomeAssistant.Endpoint, "states", key)
-	fmt.Println(target)
 	if err != nil {
 		return fmt.Errorf("creating URL: %w", err)
 	}
