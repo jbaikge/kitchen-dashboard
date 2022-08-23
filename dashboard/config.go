@@ -8,6 +8,7 @@ import (
 )
 
 type GlobalConfig struct {
+	Listen   string `toml:"listen"`
 	TimeZone string `toml:"timezone"`
 }
 
