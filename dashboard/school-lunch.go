@@ -6,11 +6,11 @@ import (
 )
 
 type SchoolMenuItem struct {
-	Description string
+	Description string `json:"description"`
 }
 
 type SchoolMenu struct {
-	Entrees []SchoolMenuItem
+	Entrees []SchoolMenuItem `json:"entrees"`
 }
 
 func GetSchoolLunch(config Config) (menu SchoolMenu, err error) {
