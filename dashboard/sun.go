@@ -6,12 +6,14 @@ import (
 )
 
 type Sun struct {
-	Dawn     time.Time `json:"dawn"`
-	Dusk     time.Time `json:"dusk"`
-	Midnight time.Time `json:"midnight"`
-	Noon     time.Time `json:"noon"`
-	Sunrise  time.Time `json:"sunrise"`
-	Sunset   time.Time `json:"sunset"`
+	Dawn          time.Time `json:"dawn"`
+	Dusk          time.Time `json:"dusk"`
+	Midnight      time.Time `json:"midnight"`
+	Noon          time.Time `json:"noon"`
+	Sunrise       time.Time `json:"sunrise"`
+	Sunset        time.Time `json:"sunset"`
+	PrettySunrise string    `json:"pretty_sunrise"`
+	PrettySunset  string    `json:"pretty_sunset"`
 }
 
 type SunState struct {
@@ -42,6 +44,8 @@ func GetSun(config Config) (sun Sun, err error) {
 	sun.Noon = state.Attributes.NextNoon.In(tz)
 	sun.Sunrise = state.Attributes.NextRising.In(tz)
 	sun.Sunset = state.Attributes.NextSetting.In(tz)
+	sun.PrettySunrise = sun.Sunrise.Format("3:04pm")
+	sun.PrettySunset = sun.Sunset.Format("3:04pm")
 
 	return
 }
