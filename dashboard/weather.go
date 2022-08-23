@@ -6,22 +6,22 @@ import (
 )
 
 type CurrentWeather struct {
-	Condition   string
-	Temperature int
-	Humidity    int
+	Condition   string `json:"condition"`
+	Temperature int    `json:"temperature"`
+	Humidity    int    `json:"humidity"`
 }
 
 type ForecastWeather struct {
-	Condition     string
-	Low           int
-	High          int
-	Date          time.Time
-	Precipitation float64
+	Condition     string    `json:"condition"`
+	Low           int       `json:"low"`
+	High          int       `json:"high"`
+	Date          time.Time `json:"date"`
+	Precipitation float64   `json:"precipitation"`
 }
 
 type Weather struct {
-	Current  CurrentWeather
-	Forecast []ForecastWeather
+	Current  CurrentWeather    `json:"current"`
+	Forecast []ForecastWeather `json:"forecast"`
 }
 
 type WeatherState struct {

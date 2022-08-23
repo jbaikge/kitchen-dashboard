@@ -6,17 +6,17 @@ import (
 )
 
 type CalendarEvent struct {
-	Summary     string
-	Description string
-	Location    string
-	Start       time.Time
-	End         time.Time
+	Summary     string    `json:"summary"`
+	Description string    `json:"description"`
+	Location    string    `json:"location"`
+	Start       time.Time `json:"start"`
+	End         time.Time `json:"end"`
 }
 
 type Calendar struct {
-	Title  string
-	Key    string
-	Events []CalendarEvent
+	Title  string          `json:"title"`
+	Key    string          `json:"key"`
+	Events []CalendarEvent `json:"events"`
 }
 
 type CalendarEntry struct {

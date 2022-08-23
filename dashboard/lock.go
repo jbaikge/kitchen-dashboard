@@ -3,8 +3,9 @@ package dashboard
 import "fmt"
 
 type Lock struct {
-	Title  string
-	Locked bool
+	Title  string `json:"title"`
+	Key    string `json:"key"`
+	Locked bool   `json:"locked"`
 }
 
 type LockState struct {
@@ -25,6 +26,7 @@ func GetLocks(config Config) (locks []Lock, err error) {
 
 		fmt.Printf("%+v\n", state)
 		locks[i].Title = lockConfig.Title
+		locks[i].Key = lockConfig.Key
 		locks[i].Locked = state.State == "locked"
 	}
 	return

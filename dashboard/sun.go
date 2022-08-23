@@ -6,12 +6,12 @@ import (
 )
 
 type Sun struct {
-	Dawn     time.Time
-	Dusk     time.Time
-	Midnight time.Time
-	Noon     time.Time
-	Sunrise  time.Time
-	Sunset   time.Time
+	Dawn     time.Time `json:"dawn"`
+	Dusk     time.Time `json:"dusk"`
+	Midnight time.Time `json:"midnight"`
+	Noon     time.Time `json:"noon"`
+	Sunrise  time.Time `json:"sunrise"`
+	Sunset   time.Time `json:"sunset"`
 }
 
 type SunState struct {
