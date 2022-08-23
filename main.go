@@ -53,14 +53,20 @@ func updateLocks() {
 }
 
 func updateSchoolLunch() {
+	hour := 9
 	var err error
 	for {
-		if data.Lunch, err = dashboard.GetSchoolLunch(config); err != nil {
+		date := time.Now()
+		if date.After(time.Date(date.Year(), date.Month(), date.Day(), hour, 0, 0, 0, date.Location())) {
+			date = date.Add(24 * time.Hour)
+		}
+
+		if data.Lunch, err = dashboard.GetSchoolLunch(config, date); err != nil {
 			log.Printf("error getting school lunch: %v", err)
 		}
 
 		now := time.Now()
-		nextFetch := time.Date(now.Year(), now.Month(), now.Day(), 8, 55, 0, 0, now.Location())
+		nextFetch := time.Date(now.Year(), now.Month(), now.Day(), hour, 0, 0, 0, now.Location())
 		if now.After(nextFetch) {
 			nextFetch = nextFetch.Add(24 * time.Hour)
 		}

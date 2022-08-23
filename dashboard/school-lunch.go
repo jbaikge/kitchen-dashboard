@@ -13,9 +13,9 @@ type SchoolMenu struct {
 	Entrees []SchoolMenuItem `json:"entrees"`
 }
 
-func GetSchoolLunch(config Config) (menu SchoolMenu, err error) {
+func GetSchoolLunch(config Config, date time.Time) (menu SchoolMenu, err error) {
 	cafe := NewSchoolCafe(config)
-	entries, err := cafe.GetMenuItems(time.Now(), SchoolCafeMealTypeLunch)
+	entries, err := cafe.GetMenuItems(date, SchoolCafeMealTypeLunch)
 	if err != nil {
 		return
 	}
