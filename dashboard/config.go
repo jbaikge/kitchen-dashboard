@@ -44,7 +44,7 @@ type SunConfig struct {
 }
 
 type TrashConfig struct {
-	Day string `toml:"day"`
+	Day time.Weekday `toml:"day"`
 }
 
 type WeatherConfig struct {
