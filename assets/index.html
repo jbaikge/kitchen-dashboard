@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Home Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      body {
+        font-size: 14px;
+        line-height: 1.25em;
+        margin: 0;
+        padding: 0;
+      }
+      table {
+        border-collapse: collapse;
+      }
+      th, td {
+        padding: 0;
+        vertical-align: top;
+      }
+      /* Main content table */
+      .content {
+        width: 600px;
+        height: 705px;
+      }
+      .content-top {
+        /* 105px for weather + 55 * 2 for notifications */
+        height: 490px;
+      }
+      .content-notifications {
+        height: 55px;
+      }
+      .content-weather {
+        height: 105px;
+      }
+      /* Calendar listings */
+      .calendars {
+        width: 100%;
+        height: 490px;
+      }
+      .calendars th {
+        padding-bottom: 0.5em;
+      }
+      .calendar-events {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .calendar-events li {
+        margin-bottom: 0.5em;
+        margin-right: 0.25em;
+        margin-left: 0.25em;
+      }
+      .calendar-events time {
+        border-top-right-radius: 8px;
+        border-top-left-radius: 8px;
+        display: block;
+        background-color: #000;
+        color: #FFF;
+        font-weight: bold;
+        text-align: center;
+      }
+      .calendar-events .event-desc {
+        border-bottom-right-radius: 8px;
+        border-bottom-left-radius: 8px;
+        border: solid #000;
+        border-left-width: 1px;
+        border-right-width: 1px;
+        border-bottom-width: 1px;
+        padding: 2px;
+        background-color: #FFF;
+      }
+      /* Weather Forecast */
+      .forecast {
+        height: 105px;
+      }
+      .forecast tr > td {
+        width: 75px;
+      }
+      .forecast-sun {
+        vertical-align: bottom;
+        padding-bottom: 1.25em;
+        text-align: center;
+      }
+      .forecast-sun img {
+        opacity: 0.33;
+      }
+      .forecast-current {
+        vertical-align: bottom;
+        text-align: center;
+      }
+      .forecast-future {
+        text-align: center;
+        vertical-align: bottom;
+      }
+      /* Notifications */
+      .notifications td {
+        width: 75px;
+        vertical-align: bottom;
+        text-align: center;
+      }
+      /* Trash Day Notification */
+      .trashday-fade img {
+        opacity: 0.15;
+      }
+      /* Apartment Door Lock */
+      .apartment-open {
+        opacity: 0.15;
+      }
+      /* Birthdays! */
+      .notifications td.birthdays {
+        text-align: left;
+        width: 300px;
+      }
+      .birthdays-empty img {
+        opacity: 0.15;
+      }
+      /* Bus */
+      .notifications .bus-location {
+        width: 150px;
+      }
+      /* Lunch */
+      .notifications .school-lunch {
+        text-align: left;
+        width: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="messages"></div>
+    <table class="content">
+      <tr>
+        <td class="content-top">
+          <table class="calendars">
+            <thead>
+              <tr id="calendar-names"></tr>
+            </thead>
+            <tbody>
+              <tr id="calendar-events"></tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td class="content-notifications">
+          <table class="notifications">
+            <tr>
+              <td class="bus">
+                <img src="/icons/bus-school.png" width="48" height="48" alt="Bus Location">
+              </td>
+              <td class="bus-location"></td>
+              <td>
+                <img src="/icons/food.png" width="48" height="48" alt="Upcoming Lunch">
+              </td>
+              <td class="school-lunch"></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td class="content-notifications">
+          <table class="notifications">
+            <tr>
+              <td class="apartment-lock">
+                <img src="/icons/lock-smart.png" width="48" height="48" alt="Apartment Lock">
+              </td>
+              <td class="trashday">
+                <img src="/icons/trash-can.png" width="48" height="48" alt="Garbage Day">
+              </td>
+              <td></td>
+              <td>
+                <img src="/icons/cake.png" width="48" height="48" alt="Birthdays">
+              </td>
+              <td class="birthdays"></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td class="content-weather">
+          <table class="forecast">
+            <tr>
+              <td class="forecast-sun">
+                <img src="/icons/weather-sunset-up.png" width="48" height="48" alt="Sunrise">
+                <div id="sunrise-time"></div>
+              </td>
+              <td class="forecast-current">
+                <div><img src="" width="48" height="48" alt="" class="current-icon"></div>
+                <div><strong class="current-temperature"></strong></div>
+                <div class="current-humidity"></div>
+              </td>
+              <td class="forecast-sun">
+                <img src="/icons/weather-sunset-down.png" width="48" height="48" alt="Sunset">
+                <div id="sunset-time"></div>
+              </td>
+              <td class="forecast-future">
+                <div class="future-date"></div>
+                <div><img src="" width="48" height="48" alt="" class="future-icon"></div>
+                <div><strong class="future-high"></strong></div>
+                <div class="future-low"></div>
+              </td>
+              <td class="forecast-future">
+                <div class="future-date"></div>
+                <div><img src="" width="48" height="48" alt="" class="future-icon"></div>
+                <div><strong class="future-high"></strong></div>
+                <div class="future-low"></div>
+              </td>
+              <td class="forecast-future">
+                <div class="future-date"></div>
+                <div><img src="" width="48" height="48" alt="" class="future-icon"></div>
+                <div><strong class="future-high"></strong></div>
+                <div class="future-low"></div>
+              </td>
+              <td class="forecast-future">
+                <div class="future-date"></div>
+                <div><img src="" width="48" height="48" alt="" class="future-icon"></div>
+                <div><strong class="future-high"></strong></div>
+                <div class="future-low"></div>
+              </td>
+              <td class="forecast-future">
+                <div class="future-date"></div>
+                <div><img src="" width="48" height="48" alt="" class="future-icon"></div>
+                <div><strong class="future-high"></strong></div>
+                <div class="future-low"></div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    <script>
+      // For the Kindle Paperwhite (7th edition at least):
+      // - Cannot use "let", must use "var"
+      // - XMLHttpResquest.responseType = "json" does not work
+      const DEGREE = '°';
+      const PERCENT = '%';
+      const WEATHER_ICONS = {
+        'clear-night':     '/icons/weather-night.png',
+        'cloudy':          '/icons/weather-cloudy.png',
+        'fog':             '/icons/weather-fog.png',
+        'lightning-rainy': '/icons/weather-lightning-rainy.png',
+        'partlycloudy':    '/icons/weather-partly-cloudy.png',
+        'pouring':         '/icons/weather-pouring.png',
+        'rainy':           '/icons/weather-rainy.png',
+        'snowy':           '/icons/weather-snowy.png',
+        'snowy-rainy':     '/icons/weather-snowy-rainy.png',
+        'sunny':           '/icons/weather-sunny.png',
+      };
+      const LONG_WEEKDAYS = [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+      ];
+      const SHORT_WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const SHORT_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const handleData = function() {
+        const data = JSON.parse(this.responseText);
+
+        var calendars = [];
+        var birthdays = null;
+        data.calendars.forEach(function(calendar) {
+          if (calendar.key == 'birthdays') {
+            birthdays = calendar
+          } else {
+            calendars.push(calendar)
+          }
+        });
+        updateCalendars(calendars);
+        updateBirthdays(birthdays);
+
+        updateSun(data.sun);
+        updateWeather(data.weather);
+
+        updateTrash(data.trash);
+
+        updateLunch(data.lunch);
+      };
+
+      const updateBirthdays = function(birthdays) {
+        const block = document.querySelector('.birthdays');
+        while (block.hasChildNodes()) {
+          block.removeChild(block.childNodes[0]);
+        }
+
+        for (i = 0; i < birthdays.events.length; i++) {
+          const event = birthdays.events[i];
+          const date = new Date(event.start);
+
+          const strong = document.createElement('strong');
+          strong.appendChild(document.createTextNode(SHORT_MONTHS[date.getMonth()] + ' ' + date.getDate()));
+
+          const line = document.createElement('div');
+          line.appendChild(strong);
+          line.appendChild(document.createTextNode(': ' + event.summary.replace("'s birthday", '')));
+
+          block.appendChild(line);
+        }
+      };
+
+      const updateCalendars = function(calendars) {
+        const names = document.getElementById('calendar-names');
+        while (names.hasChildNodes()) {
+          names.removeChild(names.childNodes[0]);
+        }
+
+        const events = document.getElementById('calendar-events');
+        while (events.hasChildNodes()) {
+          events.removeChild(events.childNodes[0]);
+        }
+
+        calendars.forEach(function(calendar) {
+          buildCalendar(calendar, names, events);
+        });
+
+        for (i = 0; i < names.childNodes.length; i++) {
+          const th = names.childNodes[i];
+          th.style.width = 1 / calendars.length * 100 + '%';
+        }
+      };
+
+      const buildCalendar = function(calendar, names, events) {
+        const th = document.createElement('th');
+        th.appendChild(document.createTextNode(calendar.title));
+        names.appendChild(th);
+
+        const td = document.createElement('td');
+        events.appendChild(td);
+
+        const ul = document.createElement('ul');
+        ul.className = 'calendar-events';
+        td.appendChild(ul);
+
+        calendar.events.slice(0, 7).forEach(function(event) {
+          const li = document.createElement('li');
+          ul.appendChild(li);
+
+          const time = document.createElement('time');
+          time.appendChild(document.createTextNode(event.pretty_date));
+          if (event.pretty_time != "") {
+            time.appendChild(document.createElement('br'))
+            time.appendChild(document.createTextNode(event.pretty_time));
+          }
+          li.appendChild(time);
+
+          const summary = document.createElement('div');
+          summary.className = 'event-desc';
+          summary.appendChild(document.createTextNode(event.summary));
+          li.appendChild(summary);
+        });
+      };
+
+      const updateSun = function(sun) {
+        document.getElementById('sunrise-time').textContent = sun.pretty_sunrise;
+        document.getElementById('sunset-time').textContent = sun.pretty_sunset;
+      };
+
+      const updateWeather = function(weather) {
+        updateCurrentWeather(weather.current);
+        updateForecastWeather(weather.forecast);
+      };
+
+      const updateCurrentWeather = function(current) {
+        const block = document.querySelector('.forecast-current');
+        const icon = block.querySelector('.current-icon');
+        icon.setAttribute('src', WEATHER_ICONS[current.condition]);
+        icon.setAttribute('alt', current.condition);
+        block.querySelector('.current-temperature').textContent = current.temperature + DEGREE;
+        block.querySelector('.current-humidity').textContent = current.humidity + PERCENT;
+      };
+
+      const updateForecastWeather = function(forecast) {
+        const futures = document.querySelectorAll('.forecast-future');
+        forecast.forEach(function(data, index) {
+          const future = futures[index];
+          const d = new Date(data.date);
+          const icon = future.querySelector('.future-icon')
+          icon.setAttribute('src', WEATHER_ICONS[data.condition]);
+          icon.setAttribute('alt', data.condition);
+          future.querySelector('.future-date').textContent = SHORT_WEEKDAYS[d.getDay()];
+          future.querySelector('.future-high').textContent = data.high + DEGREE;
+          future.querySelector('.future-low').textContent = data.low + DEGREE;
+        });
+      };
+
+      const updateTrash = function(trash) {
+        const block = document.querySelector('.trashday');
+        block.classList.remove('trashday-fade');
+        if (!trash.putCansOut) {
+          block.classList.add('trashday-fade');
+        }
+      };
+
+      const updateLunch = function(lunch) {
+        const block = document.querySelector('.school-lunch');
+        while (block.hasChildNodes()) {
+          block.removeChild(block.childNodes[0]);
+        }
+
+        for (i = 0; i < lunch.entrees.length; i++) {
+          const entree = lunch.entrees[i];
+          const line = document.createElement('div');
+          line.appendChild(document.createTextNode(entree.description));
+          block.appendChild(line);
+        }
+      };
+
+      const updateData = function() {
+        const request = new XMLHttpRequest();
+        request.addEventListener('load', handleData);
+        request.open('GET', '/data');
+        request.send();
+        setTimeout(updateData, 60000);
+      };
+
+      document.addEventListener('DOMContentLoaded', updateData);
+    </script>
+  </body>
+</html>
