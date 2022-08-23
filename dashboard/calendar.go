@@ -63,7 +63,7 @@ func GetCalendars(config Config) (calendars []Calendar, err error) {
 	for i, calConfig := range config.Calendars {
 		key := fmt.Sprintf("calendar.%s", calConfig.Key)
 		start := time.Now()
-		end := start.Add(calConfig.Outlook)
+		end := start.Add(time.Duration(calConfig.Outlook*24) * time.Hour)
 		entries := make([]CalendarEntry, 0, 30)
 		if err = ha.GetCalendar(key, start, end, &entries); err != nil {
 			err = fmt.Errorf("fetching calendar [%s]: %w", calConfig.Key, err)
