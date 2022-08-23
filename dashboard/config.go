@@ -25,12 +25,13 @@ type SchoolBusConfig struct {
 type SchoolLunchConfig struct {
 	Endpoint string `toml:"endpoint"`
 	SchoolId string `toml:"id"`
+	Grade    int    `toml:"grade"`
 }
 
 type CalendarConfig struct {
-	Title   string        `toml:"title"`
-	Key     string        `toml:"key"`
-	Outlook time.Duration `toml:"outlook"`
+	Title   string `toml:"title"`
+	Key     string `toml:"key"`
+	Outlook int    `toml:"outlook"`
 }
 
 type LockConfig struct {
@@ -40,6 +41,10 @@ type LockConfig struct {
 
 type SunConfig struct {
 	Key string `toml:"key"`
+}
+
+type TrashConfig struct {
+	Day string `toml:"day"`
 }
 
 type WeatherConfig struct {
@@ -55,6 +60,7 @@ type Config struct {
 	Locks         []LockConfig        `toml:"locks"`
 	Sun           SunConfig           `toml:"sun"`
 	Weather       WeatherConfig       `toml:"weather"`
+	Trash         TrashConfig         `toml:"trash"`
 }
 
 func (c Config) TimeZone() (tz *time.Location) {
