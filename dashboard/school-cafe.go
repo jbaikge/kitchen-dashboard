@@ -37,7 +37,6 @@ func NewSchoolCafe(config Config) SchoolCafe {
 }
 
 func (sc SchoolCafe) GetMenuItems(date time.Time, mealType string) (items map[string][]SchoolCafeItem, err error) {
-
 	base, err := url.Parse(sc.config.SchoolLunch.Endpoint)
 	if err != nil {
 		err = fmt.Errorf("parsing base URL: %w", err)
@@ -61,6 +60,9 @@ func (sc SchoolCafe) GetMenuItems(date time.Time, mealType string) (items map[st
 		err = fmt.Errorf("creating request: %w", err)
 		return
 	}
+
+	// This may or may not fix the timeout issues when contacting the API
+	request.Header.Set("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36")
 
 	http.DefaultClient.Timeout = 10 * time.Second
 	response, err := http.DefaultClient.Do(request)
