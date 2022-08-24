@@ -398,8 +398,11 @@
       const updateCurrentWeather = function(current) {
         const block = document.querySelector('.forecast-current');
         const icon = block.querySelector('.current-icon');
-        icon.setAttribute('src', WEATHER_ICONS[current.condition]);
-        icon.setAttribute('alt', current.condition);
+        const iconSrc = WEATHER_ICONS[current.condition];
+        if (icon.getAttribute('src') != iconSrc) {
+          icon.setAttribute('src', iconSrc);
+          icon.setAttribute('alt', current.condition);
+        }
         block.querySelector('.current-temperature').textContent = current.temperature + DEGREE;
         block.querySelector('.current-humidity').textContent = current.humidity + PERCENT;
       };
@@ -409,9 +412,12 @@
         forecast.forEach(function(data, index) {
           const future = futures[index];
           const d = new Date(data.date);
-          const icon = future.querySelector('.future-icon')
-          icon.setAttribute('src', WEATHER_ICONS[data.condition]);
-          icon.setAttribute('alt', data.condition);
+          const icon = future.querySelector('.future-icon');
+          const iconSrc = WEATHER_ICONS[data.condition];
+          if (icon.getAttribute('src') != iconSrc) {
+            icon.setAttribute('src', iconSrc);
+            icon.setAttribute('alt', data.condition);
+          }
           future.querySelector('.future-date').textContent = SHORT_WEEKDAYS[d.getDay()];
           future.querySelector('.future-high').textContent = data.high + DEGREE;
           future.querySelector('.future-low').textContent = data.low + DEGREE;
