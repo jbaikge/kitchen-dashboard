@@ -8,6 +8,10 @@ type Lock struct {
 	Locked bool   `json:"locked"`
 }
 
+type LockPayload struct {
+	EntityId string `json:"entity_id"`
+}
+
 type LockState struct {
 	State string
 }
@@ -28,5 +32,29 @@ func GetLocks(config Config) (locks []Lock, err error) {
 		locks[i].Key = lockConfig.Key
 		locks[i].Locked = state.State == "locked"
 	}
+	return
+}
+
+func ToggleLock(config Config, key string) (err error) {
+	key = fmt.Sprintf("lock.%s", key)
+	ha := NewHomeAssistant(config)
+
+	lockState := new(LockState)
+	if err = ha.GetState(key, lockState); err != nil {
+		return fmt.Errorf("getting lock state: %w", err)
+	}
+
+	action := "lock"
+	if lockState.State == "locked" {
+		action = "unlock"
+	}
+
+	payload := LockPayload{
+		EntityId: key,
+	}
+	if err = ha.CallService("lock", action, payload); err != nil {
+		return fmt.Errorf("setting lock state: %w", err)
+	}
+
 	return
 }
