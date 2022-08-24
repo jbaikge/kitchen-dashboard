@@ -82,7 +82,7 @@
         padding-bottom: 1.25em;
         text-align: center;
       }
-      .forecast-sun img {
+      .forecast-sun-fade img {
         opacity: 0.33;
       }
       .forecast-current {
@@ -182,7 +182,7 @@
         <td class="content-weather">
           <table class="forecast">
             <tr>
-              <td class="forecast-sun">
+              <td id="sunrise" class="forecast-sun">
                 <img src="/icons/weather-sunset-up.png" width="48" height="48" alt="Sunrise">
                 <div id="sunrise-time"></div>
               </td>
@@ -191,7 +191,7 @@
                 <div><strong class="current-temperature"></strong></div>
                 <div class="current-humidity"></div>
               </td>
-              <td class="forecast-sun">
+              <td id="sunset" class="forecast-sun">
                 <img src="/icons/weather-sunset-down.png" width="48" height="48" alt="Sunset">
                 <div id="sunset-time"></div>
               </td>
@@ -274,11 +274,10 @@
         updateCalendars(calendars);
         updateBirthdays(birthdays);
 
+        updateLocks(data.locks);
         updateSun(data.sun);
         updateWeather(data.weather);
-
         updateTrash(data.trash);
-
         updateLunch(data.lunch);
       };
 
@@ -355,9 +354,40 @@
         });
       };
 
+      const updateLocks = function(locks) {
+        const openClass = 'apartment-open';
+        const block = document.querySelector('.apartment-lock');
+        const lock = locks[0];
+        block.dataset['key'] = lock.key;
+        if (lock.locked) {
+          block.classList.remove(openClass);
+        } else {
+          block.classList.add(openClass)
+        }
+      };
+
       const updateSun = function(sun) {
         document.getElementById('sunrise-time').textContent = sun.pretty_sunrise;
         document.getElementById('sunset-time').textContent = sun.pretty_sunset;
+
+        const fadeClass = 'forecast-sun-fade';
+        const now = new Date();
+
+        const sunriseElem = document.getElementById('sunrise');
+        const dawn = new Date(sun.dawn);
+        const sunrise = new Date(sun.sunrise);
+        sunriseElem.classList.add(fadeClass);
+        if (now >= dawn && now <= sunrise) {
+          sunriseElem.classList.remove(fadeClass);
+        }
+
+        const sunsetElem = document.getElementById('sunset');
+        const dusk = new Date(sun.dusk);
+        const sunset = new Date(sun.sunset);
+        sunsetElem.classList.add(fadeClass);
+        if (now >= sunset && now <= dusk) {
+          sunsetElem.classList.remove(fadeClass);
+        }
       };
 
       const updateWeather = function(weather) {
@@ -418,6 +448,26 @@
         setTimeout(updateData, 60000);
       };
 
+      const initLocks = function() {
+        const locks = [
+          document.querySelector('.apartment-lock'),
+        ];
+
+        locks.forEach(function(lock) {
+          lock.addEventListener('click', handleLockClick);
+        });
+      };
+
+      const handleLockClick = function(event) {
+        const key = this.dataset['key'];
+        const request = new XMLHttpRequest();
+        request.open('POST', '/toggle-lock');
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.send(JSON.stringify({key: key}));
+        setTimeout(updateData, 10000);
+      };
+
+      document.addEventListener('DOMContentLoaded', initLocks);
       document.addEventListener('DOMContentLoaded', updateData);
     </script>
   </body>

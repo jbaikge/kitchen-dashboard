@@ -138,8 +138,34 @@ func main() {
 		json.NewEncoder(w).Encode(data)
 	}
 
+	lockHandler := func(w http.ResponseWriter, req *http.Request) {
+		status := struct {
+			Success bool   `json:"success"`
+			Message string `json:"message,omitempty"`
+		}{
+			Success: true,
+		}
+		defer json.NewEncoder(w).Encode(&status)
+
+		data := struct {
+			Key string `json:"key"`
+		}{}
+		if err := json.NewDecoder(req.Body).Decode(&data); err != nil {
+			status.Success = false
+			status.Message = err.Error()
+			return
+		}
+
+		if err := dashboard.ToggleLock(config, data.Key); err != nil {
+			status.Success = false
+			status.Message = err.Error()
+			return
+		}
+	}
+
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/data", dataHandler)
+	http.HandleFunc("/toggle-lock", lockHandler)
 	http.Handle("/icons/", http.FileServer(http.Dir(assetDir)))
 	http.ListenAndServe(config.Global.Listen, nil)
 }
