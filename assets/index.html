@@ -442,8 +442,10 @@
 
         for (i = 0; i < lunch.entrees.length; i++) {
           const entree = lunch.entrees[i];
+          // Trim off the "w/wo some carb" at the end of some entrees
+          const desc = entree.description.replace(/ w\/.+$/, '');
           const line = document.createElement('div');
-          line.appendChild(document.createTextNode(entree.description));
+          line.appendChild(document.createTextNode(desc));
           block.appendChild(line);
         }
       };
