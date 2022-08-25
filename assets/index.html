@@ -110,21 +110,22 @@
       /* Birthdays! */
       .notifications td.birthdays {
         text-align: left;
-        width: 300px;
+        width: 225px;
       }
       .birthdays-empty img {
         opacity: 0.15;
       }
       /* Bus */
-      .notifications .bus-location {
-        vertical-align: middle;
-        width: 150px;
-      }
-      /* Lunch */
-      .notifications .school-lunch {
+      .notifications td.bus-location {
         text-align: left;
         vertical-align: middle;
-        width: 300px;
+        width: 225px;
+      }
+      /* Lunch */
+      .notifications td.school-lunch {
+        text-align: left;
+        vertical-align: middle;
+        width: 225px;
       }
     </style>
   </head>
@@ -147,14 +148,14 @@
         <td class="content-notifications">
           <table class="notifications">
             <tr>
-              <td class="bus">
-                <img src="/icons/bus-school.png" width="48" height="48" alt="Bus Location">
-              </td>
-              <td class="bus-location"></td>
               <td>
                 <img src="/icons/food.png" width="48" height="48" alt="Upcoming Lunch">
               </td>
               <td class="school-lunch"></td>
+              <td class="bus">
+                <img src="/icons/bus-school.png" width="48" height="48" alt="Bus Location">
+              </td>
+              <td class="bus-location"></td>
             </tr>
           </table>
         </td>
@@ -169,6 +170,7 @@
               <td class="trashday">
                 <img src="/icons/trash-can.png" width="48" height="48" alt="Garbage Day">
               </td>
+              <td></td>
               <td></td>
               <td>
                 <img src="/icons/cake.png" width="48" height="48" alt="Birthdays">
