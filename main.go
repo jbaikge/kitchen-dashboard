@@ -70,6 +70,7 @@ func updateSchoolLunch() {
 		if now.After(nextFetch) {
 			nextFetch = nextFetch.Add(24 * time.Hour)
 		}
+		log.Printf("Next School Lunch fetch: %s", nextFetch.Format(time.RFC3339))
 		duration := nextFetch.Sub(now).Abs()
 		<-time.After(duration)
 	}
@@ -87,6 +88,7 @@ func updateSun() {
 		if now.After(nextFetch) {
 			nextFetch = nextFetch.Add(24 * time.Hour)
 		}
+		log.Printf("Next Sun fetch: %s", nextFetch.Format(time.RFC3339))
 		duration := nextFetch.Sub(now).Abs()
 		<-time.After(duration)
 	}
