@@ -76,13 +76,19 @@ func updateSchoolLunch() {
 }
 
 func updateSun() {
-	ticker := time.Tick(15 * time.Minute)
 	var err error
 	for {
 		if data.Sun, err = dashboard.GetSun(config); err != nil {
 			log.Printf("error getting sun information: %v", err)
 		}
-		<-ticker
+
+		now := time.Now()
+		nextFetch := time.Date(now.Year(), now.Month(), now.Day(), 1, 0, 0, 0, now.Location())
+		if now.After(nextFetch) {
+			nextFetch = nextFetch.Add(24 * time.Hour)
+		}
+		duration := nextFetch.Sub(now).Abs()
+		<-time.After(duration)
 	}
 }
 
