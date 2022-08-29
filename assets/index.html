@@ -289,7 +289,7 @@
           block.removeChild(block.childNodes[0]);
         }
 
-        for (i = 0; i < birthdays.events.length; i++) {
+        for (i = 0; i < birthdays.events.length && i < 3; i++) {
           const event = birthdays.events[i];
           const date = new Date(event.start);
 
