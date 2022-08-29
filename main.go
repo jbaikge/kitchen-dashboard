@@ -175,5 +175,5 @@ func main() {
 	http.HandleFunc("/data", dataHandler)
 	http.HandleFunc("/toggle-lock", lockHandler)
 	http.Handle("/icons/", http.FileServer(http.Dir(assetDir)))
-	http.ListenAndServe(config.Global.Listen, nil)
+	log.Fatalf("http.ListenAndServe: %v", http.ListenAndServe(config.Global.Listen, nil))
 }
