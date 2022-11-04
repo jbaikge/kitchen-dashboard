@@ -48,7 +48,7 @@ func (sc SchoolCafe) GetMenuItems(date time.Time, mealType string) (items map[st
 	query := url.Values{}
 	query.Set("SchoolId", sc.config.SchoolLunch.SchoolId)
 	query.Set("ServingDate", date.Format("01/02/2006"))
-	query.Set("ServingLine", "Main Line")
+	query.Set("ServingLine", "Traditional")
 	query.Set("MealType", mealType)
 	query.Set("Grade", fmt.Sprintf("%02d", sc.config.SchoolLunch.Grade))
 	query.Set("PersonId", "null")
