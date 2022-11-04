@@ -63,6 +63,7 @@ func (sc SchoolCafe) GetMenuItems(date time.Time, mealType string) (items map[st
 
 	// This may or may not fix the timeout issues when contacting the API
 	request.Header.Set("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36")
+	request.Header.Set("Accept", "application/json, text/plain, */*")
 
 	http.DefaultClient.Timeout = 10 * time.Second
 	response, err := http.DefaultClient.Do(request)
