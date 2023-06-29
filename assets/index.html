@@ -24,8 +24,11 @@
         height: 705px;
       }
       .content-top {
-        /* 95px for weather + 55 * 2 for notifications */
-        height: 500px;
+        /* 95px for weather + 30px for stars + 55px * 2 for notifications */
+        height: 470px;
+      }
+      .content-stars {
+        height: 30px;
       }
       .content-notifications {
         height: 55px;
@@ -36,7 +39,7 @@
       /* Calendar listings */
       .calendar-overflow {
         width: 100%;
-        height: 500px;
+        height: 470px;
         overflow-y: hidden;
       }
       .calendars {
@@ -96,6 +99,15 @@
         text-align: center;
         vertical-align: bottom;
       }
+      /* Stars */
+      .stars td.name {
+        text-align: center;
+        vertical-align: middle;
+        width: 75px;
+      }
+      .stars td.star {
+        width: 25px;
+      }
       /* Notifications */
       .notifications td {
         width: 75px;
@@ -150,6 +162,13 @@
         </td>
       </tr>
       <tr>
+        <td class="content-stars">
+          <table class="stars">
+            <tr></tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
         <td class="content-notifications">
           <table class="notifications">
             <tr>
@@ -157,9 +176,7 @@
                 <img src="/icons/food.png" width="48" height="48" alt="Upcoming Lunch">
               </td>
               <td class="school-lunch"></td>
-              <td class="bus">
-                <img src="/icons/bus-school.png" width="48" height="48" alt="Bus Location">
-              </td>
+              <td class="bus"></td>
               <td class="bus-location"></td>
             </tr>
           </table>
@@ -260,6 +277,7 @@
       ];
       const SHORT_WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
       const SHORT_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const STAR_COUNT = 9;
       const handleData = function() {
         const data = JSON.parse(this.responseText);
 
@@ -280,6 +298,7 @@
         updateWeather(data.weather);
         updateTrash(data.trash);
         updateLunch(data.lunch);
+        updateStars(data.stars);
       };
 
       const updateBirthdays = function(birthdays) {
@@ -366,6 +385,36 @@
           block.classList.add(openClass)
         }
       };
+
+      const updateStars = function(stars) {
+        const row = document.querySelector('.stars tr');
+        while (row.hasChildNodes()) {
+          row.removeChild(row.childNodes[0]);
+        }
+        stars.forEach(function(info) {
+          const nameCell = document.createElement('td');
+          nameCell.classList.add('name');
+          nameCell.textContent = info.name;
+          row.appendChild(nameCell);
+
+          for (var i = 0; i < STAR_COUNT; i++) {
+            const starCell = document.createElement('td');
+            starCell.classList.add('star');
+            row.appendChild(starCell);
+
+            var starSrc = '/icons/star-outline.png';
+            if (i < info.stars) {
+              starSrc = '/icons/star.png';
+            }
+
+            const starImg = document.createElement('img');
+            starImg.width = 24;
+            starImg.height = 24;
+            starImg.src = starSrc;
+            starCell.appendChild(starImg);
+          }
+        });
+      }
 
       const updateSun = function(sun) {
         document.getElementById('sunrise-time').textContent = sun.pretty_sunrise;
