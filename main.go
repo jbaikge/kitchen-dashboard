@@ -21,6 +21,7 @@ var data = struct {
 	Locks     []dashboard.Lock     `json:"locks"`
 	Lunch     dashboard.SchoolMenu `json:"lunch"`
 	Weather   dashboard.Weather    `json:"weather"`
+	Stars     []dashboard.Star     `json:"stars"`
 	Sun       dashboard.Sun        `json:"sun"`
 	Trash     dashboard.Trash      `json:"trash"`
 }{}
@@ -76,6 +77,17 @@ func updateSchoolLunch() {
 	}
 }
 
+func updateStars() {
+	ticker := time.Tick(time.Minute)
+	var err error
+	for {
+		if data.Stars, err = dashboard.GetStars(config); err != nil {
+			log.Printf("error getting star information: %v", err)
+		}
+		<-ticker
+	}
+}
+
 func updateSun() {
 	var err error
 	for {
@@ -125,6 +137,7 @@ func main() {
 	go updateCalendars()
 	go updateLocks()
 	go updateTrash()
+	go updateStars()
 	go updateSun()
 	go updateWeather()
 	go updateSchoolLunch()
