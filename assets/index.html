@@ -24,19 +24,19 @@
         height: 705px;
       }
       .content-top {
-        /* 105px for weather + 55 * 2 for notifications */
-        height: 490px;
+        /* 95px for weather + 55 * 2 for notifications */
+        height: 500px;
       }
       .content-notifications {
         height: 55px;
       }
       .content-weather {
-        height: 105px;
+        height: 95px;
       }
       /* Calendar listings */
       .calendars {
         width: 100%;
-        height: 490px;
+        height: 500px;
       }
       .calendars th {
         padding-bottom: 0.5em;
@@ -72,14 +72,13 @@
       }
       /* Weather Forecast */
       .forecast {
-        height: 105px;
+        height: 95px;
       }
       .forecast tr > td {
         width: 75px;
       }
       .forecast-sun {
         vertical-align: bottom;
-        padding-bottom: 1.25em;
         text-align: center;
       }
       .forecast-sun-fade img {
@@ -191,7 +190,6 @@
               <td class="forecast-current">
                 <div><img src="" width="48" height="48" alt="" class="current-icon"></div>
                 <div><strong class="current-temperature"></strong></div>
-                <div class="current-humidity"></div>
               </td>
               <td id="sunset" class="forecast-sun">
                 <img src="/icons/weather-sunset-down.png" width="48" height="48" alt="Sunset">
@@ -200,32 +198,27 @@
               <td class="forecast-future">
                 <div class="future-date"></div>
                 <div><img src="" width="48" height="48" alt="" class="future-icon"></div>
-                <div><strong class="future-high"></strong></div>
-                <div class="future-low"></div>
+                <div><strong class="future-high"></strong> / <span class="future-low"></span></div>
               </td>
               <td class="forecast-future">
                 <div class="future-date"></div>
                 <div><img src="" width="48" height="48" alt="" class="future-icon"></div>
-                <div><strong class="future-high"></strong></div>
-                <div class="future-low"></div>
+                <div><strong class="future-high"></strong> / <span class="future-low"></span></div>
               </td>
               <td class="forecast-future">
                 <div class="future-date"></div>
                 <div><img src="" width="48" height="48" alt="" class="future-icon"></div>
-                <div><strong class="future-high"></strong></div>
-                <div class="future-low"></div>
+                <div><strong class="future-high"></strong> / <span class="future-low"></span></div>
               </td>
               <td class="forecast-future">
                 <div class="future-date"></div>
                 <div><img src="" width="48" height="48" alt="" class="future-icon"></div>
-                <div><strong class="future-high"></strong></div>
-                <div class="future-low"></div>
+                <div><strong class="future-high"></strong> / <span class="future-low"></span></div>
               </td>
               <td class="forecast-future">
                 <div class="future-date"></div>
                 <div><img src="" width="48" height="48" alt="" class="future-icon"></div>
-                <div><strong class="future-high"></strong></div>
-                <div class="future-low"></div>
+                <div><strong class="future-high"></strong> / <span class="future-low"></span></div>
               </td>
             </tr>
           </table>
@@ -406,7 +399,7 @@
           icon.setAttribute('alt', current.condition);
         }
         block.querySelector('.current-temperature').textContent = current.temperature + DEGREE;
-        block.querySelector('.current-humidity').textContent = current.humidity + PERCENT;
+        //block.querySelector('.current-humidity').textContent = current.humidity + PERCENT;
       };
 
       const updateForecastWeather = function(forecast) {
