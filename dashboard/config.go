@@ -40,6 +40,10 @@ type LockConfig struct {
 	Key   string `toml:"key"`
 }
 
+type StarConfig struct {
+	Key string `toml:"key"`
+}
+
 type SunConfig struct {
 	Key string `toml:"key"`
 }
@@ -59,6 +63,7 @@ type Config struct {
 	SchoolLunch   SchoolLunchConfig   `toml:"school-lunch"`
 	Calendars     []CalendarConfig    `toml:"calendars"`
 	Locks         []LockConfig        `toml:"locks"`
+	Stars         []StarConfig        `toml:"stars"`
 	Sun           SunConfig           `toml:"sun"`
 	Weather       WeatherConfig       `toml:"weather"`
 	Trash         TrashConfig         `toml:"trash"`
