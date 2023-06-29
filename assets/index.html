@@ -108,6 +108,9 @@
       .stars td.star {
         width: 25px;
       }
+      .stars img.fade {
+        opacity: 0.33;
+      }
       /* Notifications */
       .notifications td {
         width: 75px;
@@ -402,15 +405,14 @@
             starCell.classList.add('star');
             row.appendChild(starCell);
 
-            var starSrc = '/icons/star-outline.png';
-            if (i < info.stars) {
-              starSrc = '/icons/star.png';
-            }
-
             const starImg = document.createElement('img');
             starImg.width = 24;
             starImg.height = 24;
-            starImg.src = starSrc;
+            starImg.src = '/icons/star.png';
+            if (i >= info.stars) {
+              starImg.src = '/icons/star-outline.png';
+              starImg.classList.add('fade');
+            }
             starCell.appendChild(starImg);
           }
         });
