@@ -432,6 +432,9 @@
       const updateForecastWeather = function(forecast) {
         const futures = document.querySelectorAll('.forecast-future');
         forecast.forEach(function(data, index) {
+          if (futures.length <= index) {
+            return;
+          }
           const future = futures[index];
           const d = new Date(data.date);
           const icon = future.querySelector('.future-icon');
