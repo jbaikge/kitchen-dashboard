@@ -48,6 +48,10 @@ type TrashConfig struct {
 	Day time.Weekday `toml:"day"`
 }
 
+type TravelConfig struct {
+	Key string `toml:"key"`
+}
+
 type WeatherConfig struct {
 	Key string `toml:"key"`
 }
@@ -62,6 +66,7 @@ type Config struct {
 	Sun           SunConfig           `toml:"sun"`
 	Weather       WeatherConfig       `toml:"weather"`
 	Trash         TrashConfig         `toml:"trash"`
+	Travel        []TravelConfig      `toml:"travel"`
 }
 
 func (c Config) TimeZone() (tz *time.Location) {

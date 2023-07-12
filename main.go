@@ -17,12 +17,13 @@ var assetDir = "./assets"
 var config dashboard.Config
 var configFile = "config.toml"
 var data = struct {
-	Calendars []dashboard.Calendar `json:"calendars"`
-	Locks     []dashboard.Lock     `json:"locks"`
-	Lunch     dashboard.SchoolMenu `json:"lunch"`
-	Weather   dashboard.Weather    `json:"weather"`
-	Sun       dashboard.Sun        `json:"sun"`
-	Trash     dashboard.Trash      `json:"trash"`
+	Calendars   []dashboard.Calendar   `json:"calendars"`
+	Locks       []dashboard.Lock       `json:"locks"`
+	Lunch       dashboard.SchoolMenu   `json:"lunch"`
+	Weather     dashboard.Weather      `json:"weather"`
+	Sun         dashboard.Sun          `json:"sun"`
+	Trash       dashboard.Trash        `json:"trash"`
+	TravelTimes []dashboard.TravelTime `json:"travelTimes"`
 }{}
 
 func init() {
@@ -102,6 +103,17 @@ func updateTrash() {
 	}
 }
 
+func updateTravelTimes() {
+	ticker := time.Tick(15 * time.Minute)
+	var err error
+	for {
+		if data.TravelTimes, err = dashboard.GetTravelTimes(config); err != nil {
+			log.Printf("error getting travel times: %v", err)
+		}
+		<-ticker
+	}
+}
+
 func updateWeather() {
 	ticker := time.Tick(15 * time.Minute)
 	var err error
@@ -125,6 +137,7 @@ func main() {
 	go updateCalendars()
 	go updateLocks()
 	go updateTrash()
+	go updateTravelTimes()
 	go updateSun()
 	go updateWeather()
 	go updateSchoolLunch()
