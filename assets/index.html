@@ -24,8 +24,8 @@
         height: 705px;
       }
       .content-top {
-        /* 95px for weather + 30px for stars + 55px * 2 for notifications */
-        height: 470px;
+        /* 95px for weather + 55px * 2 for notifications */
+        height: 500px;
       }
       .content-stars {
         height: 30px;
@@ -39,7 +39,7 @@
       /* Calendar listings */
       .calendar-overflow {
         width: 100%;
-        height: 470px;
+        height: 500px;
         overflow-y: hidden;
       }
       .calendars {
@@ -99,18 +99,6 @@
         text-align: center;
         vertical-align: bottom;
       }
-      /* Stars */
-      .stars td.name {
-        text-align: center;
-        vertical-align: middle;
-        width: 75px;
-      }
-      .stars td.star {
-        width: 25px;
-      }
-      .stars img.fade {
-        opacity: 0.33;
-      }
       /* Notifications */
       .notifications td {
         width: 75px;
@@ -134,10 +122,10 @@
         opacity: 0.33;
       }
       /* Bus */
-      .notifications td.bus-location {
-        text-align: left;
+      .notifications td.travel-time {
+        text-align: center;
         vertical-align: middle;
-        width: 225px;
+        width: 75px;
       }
       /* Lunch */
       .notifications td.school-lunch {
@@ -165,13 +153,6 @@
         </td>
       </tr>
       <tr>
-        <td class="content-stars">
-          <table class="stars">
-            <tr></tr>
-          </table>
-        </td>
-      </tr>
-      <tr>
         <td class="content-notifications">
           <table class="notifications">
             <tr>
@@ -179,8 +160,21 @@
                 <img src="/icons/food.png" width="48" height="48" alt="Upcoming Lunch">
               </td>
               <td class="school-lunch"></td>
-              <td class="bus"></td>
-              <td class="bus-location"></td>
+              <td>
+                <img src="/icons/car-hatchback.png" width="48" height="48" alt="Travel Times">
+              </td>
+              <td class="travel-time">
+                <div class="name"></div>
+                <div class="duration"></div>
+              </td>
+              <td class="travel-time">
+                <div class="name"></div>
+                <div class="duration"></div>
+              </td>
+              <td class="travel-time">
+                <div class="name"></div>
+                <div class="duration"></div>
+              </td>
             </tr>
           </table>
         </td>
@@ -280,7 +274,6 @@
       ];
       const SHORT_WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
       const SHORT_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      const STAR_COUNT = 9;
       const handleData = function() {
         const data = JSON.parse(this.responseText);
 
@@ -300,6 +293,7 @@
         updateSun(data.sun);
         updateWeather(data.weather);
         updateTrash(data.trash);
+        updateTravelTimes(data.travelTimes);
         updateLunch(data.lunch);
       };
 
@@ -431,10 +425,7 @@
 
       const updateForecastWeather = function(forecast) {
         const futures = document.querySelectorAll('.forecast-future');
-        forecast.forEach(function(data, index) {
-          if (futures.length <= index) {
-            return;
-          }
+        forecast.slice(0, futures.length).forEach(function(data, index) {
           const future = futures[index];
           const d = new Date(data.date);
           const icon = future.querySelector('.future-icon');
@@ -456,6 +447,15 @@
           block.classList.add('trashday-fade');
         }
       };
+
+      const updateTravelTimes = function(travelTimes) {
+        const times = document.querySelectorAll('.travel-time');
+        travelTimes.slice(0, times.length).forEach(function(data, index) {
+          const time = times[index];
+          time.querySelector('.name').textContent = data.name;
+          time.querySelector('.duration').textContent = data.duration;
+        });
+      }
 
       const updateLunch = function(lunch) {
         const block = document.querySelector('.school-lunch');
