@@ -2,7 +2,6 @@ package dashboard
 
 import (
 	"fmt"
-	"log"
 )
 
 type TravelTime struct {
@@ -30,8 +29,6 @@ func GetTravelTimes(config Config) (travelTimes []TravelTime, err error) {
 		if err = ha.GetState(key, state); err != nil {
 			return
 		}
-
-		log.Printf("%+v", state)
 		travelTimes[i].Name = state.Attributes.Name
 		travelTimes[i].Duration = fmt.Sprintf("%s%s", state.State, state.Attributes.Unit)
 	}
