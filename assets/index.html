@@ -301,7 +301,6 @@
         updateWeather(data.weather);
         updateTrash(data.trash);
         updateLunch(data.lunch);
-        updateStars(data.stars);
       };
 
       const updateBirthdays = function(birthdays) {
@@ -388,35 +387,6 @@
           block.classList.add(openClass)
         }
       };
-
-      const updateStars = function(stars) {
-        const row = document.querySelector('.stars tr');
-        while (row.hasChildNodes()) {
-          row.removeChild(row.childNodes[0]);
-        }
-        stars.forEach(function(info) {
-          const nameCell = document.createElement('td');
-          nameCell.classList.add('name');
-          nameCell.textContent = info.name;
-          row.appendChild(nameCell);
-
-          for (var i = 0; i < STAR_COUNT; i++) {
-            const starCell = document.createElement('td');
-            starCell.classList.add('star');
-            row.appendChild(starCell);
-
-            const starImg = document.createElement('img');
-            starImg.width = 24;
-            starImg.height = 24;
-            starImg.src = '/icons/star.png';
-            if (i >= info.stars) {
-              starImg.src = '/icons/star-outline.png';
-              starImg.classList.add('fade');
-            }
-            starCell.appendChild(starImg);
-          }
-        });
-      }
 
       const updateSun = function(sun) {
         document.getElementById('sunrise-time').textContent = sun.pretty_sunrise;
