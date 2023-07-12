@@ -6,7 +6,7 @@ import (
 )
 
 type SchoolMenuItem struct {
-	Description string `json:"description"`
+	Description string `json:"MenuItemDescription"`
 }
 
 type SchoolMenu struct {
